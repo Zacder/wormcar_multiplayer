@@ -97,7 +97,7 @@ func _physics_process(delta: float) -> void:
 					driving = true
 			else:
 				if seat != null:
-					seat.get_sat_on(false, 0)
+					seat.get_sat_on.rpc(false, 0)
 				driving = false
 
 func freeze():
