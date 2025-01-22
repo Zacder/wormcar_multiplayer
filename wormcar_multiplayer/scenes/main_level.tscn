@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://dycm0lukrfdfe"]
+
+[ext_resource type="Script" path="res://scenes/multiplayer_spawner.gd" id="1_d10ht"]
+[ext_resource type="PackedScene" uid="uid://dv76md5s0cjqi" path="res://scenes/newPlayer.tscn" id="2_afdbf"]
+[ext_resource type="PackedScene" uid="uid://bcmvbkce41b8v" path="res://scenes/wormcar.tscn" id="3_38bs7"]
+[ext_resource type="PackedScene" uid="uid://b4pnr52m76uvl" path="res://scenes/box.tscn" id="4_xql14"]
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_gr21l"]
+albedo_color = Color(0.497474, 0.497474, 0.497474, 1)
+
+[node name="MainLevel" type="Node3D"]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath(".")
+script = ExtResource("1_d10ht")
+playerScene = ExtResource("2_afdbf")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -2, -31.5)
+material_override = SubResource("ORMMaterial3D_gr21l")
+use_collision = true
+size = Vector3(26, 1, 72)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+light_energy = 3.01
+omni_range = 16.0
+
+[node name="wormcar" parent="." instance=ExtResource("3_38bs7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9)
+
+[node name="box" parent="." instance=ExtResource("4_xql14")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -4)

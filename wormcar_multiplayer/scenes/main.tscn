@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid="uid://d7v3j1ckxh8v"]
+
+[ext_resource type="Script" path="res://scripts/Steam.gd" id="1_dslin"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_spsva"]
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_spsva")
+
+[node name="Steam" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_dslin")
+
+[node name="Multiplayerhud" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Host" type="Button" parent="Multiplayerhud"]
+layout_mode = 0
+offset_right = 52.0
+offset_bottom = 53.0
+text = "Host"
+
+[node name="LobbyContainer" type="ScrollContainer" parent="Multiplayerhud"]
+visible = false
+layout_mode = 0
+offset_left = 459.0
+offset_top = 325.0
+offset_right = 1149.0
+offset_bottom = 642.0
+
+[node name="Lobbies" type="VBoxContainer" parent="Multiplayerhud/LobbyContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Refresh" type="Button" parent="Multiplayerhud"]
+visible = false
+layout_mode = 0
+offset_left = 316.0
+offset_top = 551.0
+offset_right = 384.0
+offset_bottom = 582.0
+text = "Refresh"
+
+[node name="Join" type="Button" parent="Multiplayerhud"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 2.0
+offset_right = 129.0
+offset_bottom = 51.0
+text = "Join
+"
+
+[node name="lobby_id" type="LineEdit" parent="Multiplayerhud"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 83.0
+offset_right = 389.0
+offset_bottom = 114.0
+placeholder_text = "lobby_id"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+
+[connection signal="pressed" from="Multiplayerhud/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Multiplayerhud/Refresh" to="." method="_on_refresh_pressed"]
+[connection signal="pressed" from="Multiplayerhud/Join" to="." method="_on_join_pressed"]

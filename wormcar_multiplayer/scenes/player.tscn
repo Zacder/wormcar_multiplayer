@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://cffjduipbb3s5"]
+
+[ext_resource type="Script" path="res://level/scripts/player.gd" id="1_tdh26"]
+[ext_resource type="Script" path="res://level/scripts/3d_godot_robot.gd" id="2_mexc5"]
+[ext_resource type="Texture2D" uid="uid://cw6pxwst2gh85" path="res://assets/characters/player/GodotRobotPaletteSwap/GodotYellowPalette.png" id="3_l3dv8"]
+[ext_resource type="Texture2D" uid="uid://bbid6mowxhd5b" path="res://assets/characters/player/GodotRobotPaletteSwap/GodotGreenPalette.png" id="4_74ree"]
+[ext_resource type="Texture2D" uid="uid://fpmmv2oxjcdv" path="res://assets/characters/player/GodotRobotPaletteSwap/GodotPalette.png" id="4_max2b"]
+[ext_resource type="Texture2D" uid="uid://brp1gy30s4rks" path="res://assets/characters/player/GodotRobotPaletteSwap/GodotRedPalette.png" id="5_qlefn"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mx45w"]
+radius = 0.35796
+height = 1.73092
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_gn8qg"]
+radius = 0.374
+height = 1.913
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wb3a5"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("PlayerNick/Nickname:text")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_body")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+collision_mask = 3
+script = ExtResource("1_tdh26")
+_body = NodePath("playermesh")
+blue_texture = ExtResource("4_max2b")
+yellow_texture = ExtResource("3_l3dv8")
+green_texture = ExtResource("4_74ree")
+red_texture = ExtResource("5_qlefn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 0.828, 0.01)
+shape = SubResource("CapsuleShape3D_mx45w")
+
+[node name="playermesh" type="Node3D" parent="." node_paths=PackedStringArray("_character")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0644093, -1.19209e-07, -0.035357)
+script = ExtResource("2_mexc5")
+_character = NodePath("..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="playermesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_gn8qg")
+
+[node name="PlayerNick" type="Node3D" parent="."]
+
+[node name="Nickname" type="Label3D" parent="PlayerNick"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.97037, 0)
+billboard = 1
+outline_modulate = Color(0, 0, 0, 0.301961)
+text = "player name test"
+
+[node name="head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="head"]
+current = true
+
+[node name="RayCast3D" type="RayCast3D" parent="head/Camera3D"]
+target_position = Vector3(0, 0, -5)
+collide_with_areas = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_wb3a5")

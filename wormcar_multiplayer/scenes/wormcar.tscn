@@ -1,0 +1,93 @@
+[gd_scene load_steps=9 format=3 uid="uid://bcmvbkce41b8v"]
+
+[ext_resource type="Script" path="res://scripts/wormcar.gd" id="1_r8m4d"]
+[ext_resource type="Script" path="res://scripts/seat.gd" id="2_0clrl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qx86v"]
+size = Vector3(2.7, 3.5, 0.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_aq7on"]
+size = Vector3(2.415, 3.58, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uyr6a"]
+albedo_color = Color(0.726546, 0.322852, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_51m8i"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_moyn8"]
+size = Vector3(1, 0.4, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jw66i"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="wormcar" type="VehicleBody3D"]
+script = ExtResource("1_r8m4d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0499999, -0.1, -0.45)
+shape = SubResource("BoxShape3D_qx86v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.2, -0.3)
+mesh = SubResource("BoxMesh_aq7on")
+
+[node name="VehicleWheel3D" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.5, -2)
+use_as_traction = true
+
+[node name="VehicleWheel3D2" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.5, -2)
+use_as_traction = true
+
+[node name="VehicleWheel3D3" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.5, 1)
+use_as_traction = true
+use_as_steering = true
+
+[node name="VehicleWheel3D4" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.5, 1)
+use_as_traction = true
+use_as_steering = true
+
+[node name="seat" type="Area3D" parent="."]
+transform = Transform3D(-1, 0, 8.74232e-08, 0, 1, 0, -8.74232e-08, 0, -1, 0, 0.6, 0.7)
+script = ExtResource("2_0clrl")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="seat"]
+transform = Transform3D(1, 0, 0, 0, 0.4, 0, 0, 0, 1, 0, -0.3, 0)
+material_override = SubResource("StandardMaterial3D_uyr6a")
+mesh = SubResource("BoxMesh_51m8i")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="seat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+shape = SubResource("BoxShape3D_moyn8")
+
+[node name="seat2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -1.6)
+script = ExtResource("2_0clrl")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="seat2"]
+transform = Transform3D(1, 0, 0, 0, 0.4, 0, 0, 0, 1, 0, -0.3, 0)
+material_override = SubResource("StandardMaterial3D_uyr6a")
+mesh = SubResource("BoxMesh_51m8i")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="seat2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+shape = SubResource("BoxShape3D_moyn8")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
+light_color = Color(0.637671, 0.454766, 0.271388, 1)
+omni_range = 6.9
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_jw66i")
+
+[connection signal="sitting" from="seat" to="." method="_on_seat_sitting"]

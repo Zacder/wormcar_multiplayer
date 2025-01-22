@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://cigpkruro1j17"]
+
+[ext_resource type="PackedScene" uid="uid://dv76md5s0cjqi" path="res://scenes/newPlayer.tscn" id="1_gbyv0"]
+[ext_resource type="PackedScene" uid="uid://bcmvbkce41b8v" path="res://scenes/wormcar.tscn" id="2_bgceh"]
+[ext_resource type="Shader" uid="uid://mxwy61wrdo2g" path="res://assets/mats/testworld.tres" id="3_aarfj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ogg5"]
+shader = ExtResource("3_aarfj")
+shader_parameter/time_of_day = 1.0
+
+[sub_resource type="Sky" id="Sky_o8xla"]
+sky_material = SubResource("ShaderMaterial_2ogg5")
+
+[sub_resource type="Environment" id="Environment_jj64k"]
+background_mode = 2
+sky = SubResource("Sky_o8xla")
+fog_density = 0.1785
+
+[node name="Testworld" type="Node3D"]
+
+[node name="environment" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.70764, -0.750766, -0.11084)
+use_collision = true
+size = Vector3(36.8396, 1, 31.415)
+
+[node name="player" parent="." instance=ExtResource("1_gbyv0")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.99383, 0)
+shadow_enabled = true
+omni_range = 15.0079
+
+[node name="wormcar" parent="OmniLight3D" instance=ExtResource("2_bgceh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.93686, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jj64k")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, -0.817798, 0.575505, 0, -0.575505, -0.817798, 0, 8.12044, 0)
+light_color = Color(0.34482, 0.590311, 0.788012, 1)
+light_energy = 0.168
