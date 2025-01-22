@@ -1,6 +1,6 @@
 extends RigidBody3D
 
-var goal: Marker3D
+var goal
 var being_moved: bool = false
 var pull_power = 8
 # Called when the node enters the scene tree for the first time.
